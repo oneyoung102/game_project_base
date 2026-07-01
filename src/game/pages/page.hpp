@@ -4,6 +4,7 @@
 #include "resourceManager/soundManager/soundManager.hpp"
 #include "game/letManager/letManager.hpp"
 
+
 class FileManager;
 class RenderWindow;
 class PageSignal;
@@ -16,15 +17,15 @@ class Page
             none,
         };
     protected :
-        LetManager pl;
-        PrintManager pp;
-        SoundManager ps;
-        bool convert_page;
+        LetManager letManager;
+        PrintManager printManager;
+        SoundManager soundManager;
+        bool convertPage;
 
-        const Name name;
     public :
         Page();
         virtual ~Page() = default;
-        virtual PageSignal proceed_page(FileManager& pfs, sf::RenderWindow& window) = 0;
-        LetManager& refer_let();
+        virtual PageSignal proceedPage(FileManager& fileManager, sf::RenderWindow& window) = 0;
+        constexpr virtual Name getName() const = 0;
+        LetManager& getLetManager();
 };

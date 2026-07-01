@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug after us (LLDB)",
+      "name": "Debug game_project_base (LLDB)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/after_us",
+      "program": "${workspaceFolder}/bin/game_project_base",
       "args": [],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}",
@@ -25,8 +25,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/jangoneyoung/after_us_project/src",
-      "program": "/Users/jangoneyoung/after_us_project/src/build/Debug/outDebug"
+      "cwd": "${workspaceFolder}/src",
+      "program": "${workspaceFolder}/src/build/Debug/outDebug"
     }
   ]
 }

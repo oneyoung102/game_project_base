@@ -8,42 +8,42 @@
 using namespace std;
 using namespace sf;
 
-void PageManager::changePage(Page::Name p)
+void PageManager::changePage(Page::Name pageName)
 {
-
+    switch(pageName)
+    {
+        default :
+            currPage = nullptr;
+            break;
+    }
 }
 
-void PageManager::captureWindow(sf::RenderWindow& window)
+PageManager::PageManager(WindowManager::SCREEN_SIZE_TYPE screenSize)
+    : signal{}
+    , screenSize(screenSize)
 {
-    capture_texture = sf::Texture(window.getSize()); 
-    capture_texture.update(window);
-    capture_sprite.setTexture(capture_texture, true);
+    if (signal.next_page)
+        changePage(*signal.next_page);
 }
 
-PageManager::PageManager()
-    : capture_sprite(Sprite(capture_texture))
-    , signal{}
+void PageManager::showPage(WindowManager& windowManager)
 {
-    changePage(*signal.next_page);
-}
-
-void PageManager::showPage(sf::RenderWindow& window)
-{
-    while (auto event = window.pollEvent())
+    while (auto event = windowManager.pollEvent())
     {
         if (event->is<Event::Closed>())
-            window.close();
-        curr_page->refer_let().act_keyboard_let(event);
+            windowManager.close();
+        windowManager.resizeWindow(*event);
+        currPage->getLetManager().actKeyboardLet(event);
     }
-    window.clear();
-    signal = curr_page->proceed_page(pfs, window);
-    window.display();
+    windowManager.clear();
+    signal = currPage->proceedPage(fileManager, windowManager.getWindow());
+    windowManager.setView();
+    windowManager.display();
     
     if(signal.request_capture && *signal.request_capture)
     {
-        captureWindow(window);
+        windowManager.captureWindow();
         signal.request_capture = false;
-
     }
     if(signal.next_page)
         changePage(*signal.next_page);
